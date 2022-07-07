@@ -26,14 +26,14 @@ void pyramid(int height)
 
 int main(void)
 {
-   int height;
+    int height;
 
 //The below do/while enforces the user to enter the correct height
 
-   do
-   {
+    do
+    {
         height = get_int("Height: ");
-   }
-   while (height > 8 || height < 1);
-   pyramid(height);
+    }
+    while (height > 8 || height < 1);
+    pyramid(height);
 }
