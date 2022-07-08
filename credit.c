@@ -14,16 +14,16 @@ int main(void)
     int digits_no = 0;
     for (int i = 1; i <= 16; i++)
     {
-        if (num % (long) pow(10, i-1) == num)
+        if (num % (long) pow(10, i - 1) == num)
         {
             break;
         }
-        digit = floor(num % (long) pow(10, i) / pow(10, i-1));
-        digit_2 = floor(num % (long) pow(10, i-1) / pow(10, i-2));
+        digit = floor(num % (long) pow(10, i) / pow(10, i - 1));
+        digit_2 = floor(num % (long) pow(10, i - 1) / pow(10, i - 2));
         digits_no = i;
         if (i % 2 == 0)
         {
-            sum = (digit * 2 > 9) ? sum + ((digit * 2) % 10 + floor (digit * 2 / 10)) : sum + digit * 2;
+            sum = (digit * 2 > 9) ? sum + ((digit * 2) % 10 + floor(digit * 2 / 10)) : sum + digit * 2;
         }
         else
         {
