@@ -13,8 +13,8 @@ int main(void)
 
     // Calculate Coleman-Liau index
 
-    float L = count_letters(text) * 100 / count_words(text);
-    float S = count_sentences(text) * 100 / count_words(text);
+    float L = count_letters(text) * 100 / (float) count_words(text);
+    float S = count_sentences(text) * 100 / (float) count_words(text);
     int index = round(0.0588 * L - 0.296 * S - 15.8);
 
     // Show the Grade
