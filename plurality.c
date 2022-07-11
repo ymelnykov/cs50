@@ -97,13 +97,13 @@ void print_winner(void)
         }
         if (j == 0)
         {
-            printf("%s\n", candidates[candidate_count-1].name);
+            printf("%s\n", candidates[candidate_count - 1].name);
             j++;
         }
         else if (j > 0 && candidates[candidate_count - j].votes == candidates[candidate_count - j - 1].votes)
         {
             printf("%s\n", candidates[candidate_count - j - 1].name);
-        j++;
+            j++;
         }
         else
         {
