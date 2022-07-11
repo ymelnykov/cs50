@@ -1,0 +1,11 @@
+sort1 uses: bubble
+
+How do you know?: performs better on sorted arrays and worse on others
+
+sort2 uses: merge
+
+How do you know?: the best performer except for sorted arrays
+
+sort3 uses: selection
+
+How do you know?: the third one in the company
