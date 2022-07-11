@@ -84,7 +84,7 @@ void print_winner(void)
     //Sort candidates by votes using bubble sort
 
     int j = 0;
-    while (j < candidate_count - 1)
+    while (j < candidate_count)
     {
         for (int i = 0; i <= candidate_count - 2; i++)
         {
