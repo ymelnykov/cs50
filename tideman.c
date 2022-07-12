@@ -104,7 +104,8 @@ bool vote(int rank, string name, int ranks[])
     {
         if (!strcasecmp(candidates[i], name))
         {
-            ranks[i] = rank;
+            //ranks[i] = rank;
+            ranks[rank] = i;
             return true;
         }
     }
@@ -116,15 +117,20 @@ void record_preferences(int ranks[])
 {
     for (int i = 0; i < candidate_count; i++)
     {
-        for (int j = 0; j < candidate_count; j++)
+        //for (int j = 0; j < candidate_count; j++)
+        for (int j = i; j < candidate_count; j++)
         {
-            if (ranks[i] < ranks[j])
-            {
-                preferences[i][j]++;
-            }
+            //if (ranks[i] < ranks[j])
+            //{
+                //preferences[i][j]++;
+            //}
             if (i == j)
             {
                 preferences[i][j] = 0;
+            }
+            else
+            {
+                preferences[i][j]++;
             }
 
         }
