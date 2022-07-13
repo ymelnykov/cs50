@@ -154,9 +154,9 @@ void add_pairs(void)
 void sort_pairs(void)
 {
     pair temp[1];
-    for (int i = 0; i < pair_count-2; i++)
+    for (int i = 0; i < pair_count - 2; i++)
     {
-        for (int j = 0; j < pair_count-2; j++)
+        for (int j = 0; j < pair_count - 2; j++)
         {
             if (preferences[pairs[j].winner][pairs[j].loser] < preferences[pairs[j + 1].winner][pairs[j + 1].loser])
             {
@@ -174,7 +174,7 @@ void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
     {
-    //Check if locked pair creates a cycle using an added creates_cycle fuction
+        //Check if locked pair creates a cycle using an added creates_cycle fuction
         if (!creates_cycle(pairs[i].winner, pairs[i].loser))
         {
             locked[pairs[i].winner][pairs[i].loser] = true;
@@ -187,7 +187,7 @@ void lock_pairs(void)
 void print_winner(void)
 {
 
-for (int j = 0; j < candidate_count; j++)
+    for (int j = 0; j < candidate_count; j++)
     {
         bool flag = false;
         for (int i = 0; i < candidate_count; i++)
