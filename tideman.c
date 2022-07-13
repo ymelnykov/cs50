@@ -105,7 +105,6 @@ bool vote(int rank, string name, int ranks[])
     {
         if (!strcasecmp(candidates[i], name))
         {
-            //ranks[i] = rank;
             ranks[rank] = i;
             return true;
         }
@@ -118,13 +117,8 @@ void record_preferences(int ranks[])
 {
     for (int i = 0; i < candidate_count; i++)
     {
-        //for (int j = 0; j < candidate_count; j++)
         for (int j = i; j < candidate_count; j++)
         {
-            //if (ranks[i] < ranks[j])
-            //{
-                //preferences[i][j]++;
-            //}
             if (i == j)
             {
                 preferences[ranks[i]][ranks[j]] = 0;
@@ -133,17 +127,8 @@ void record_preferences(int ranks[])
             {
                 preferences[ranks[i]][ranks[j]]++;
             }
-
         }
     }
-    //for (int i = 0; i < candidate_count; i++)
-    //{
-        //for (int j = 0; j < candidate_count; j++)
-        //{
-            //printf("%i   ", preferences[i][j]);
-        //}
-        //printf("\n");
-    //}
     return;
 }
 
@@ -158,12 +143,10 @@ void add_pairs(void)
             {
                 pairs[pair_count].winner = i;
                 pairs[pair_count].loser = j;
-                //printf("[%i, %i]  ", pairs[pair_count].winner, pairs[pair_count].loser);
                 pair_count++;
             }
         }
     }
-    //printf("\n");
     return;
 }
 
@@ -183,12 +166,6 @@ void sort_pairs(void)
             }
         }
     }
-    //for (int i = 0; i < pair_count; i++)
-    //{
-        //printf("[%i, %i]  ", pairs[i].winner, pairs[i].loser);
-    //}
-    //printf("\n");
-
     return;
 }
 
@@ -197,6 +174,7 @@ void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
     {
+    //Check if locked pair creates a cycle using an added creates_cycle fuction
         if (!creates_cycle(pairs[i].winner, pairs[i].loser))
         {
             locked[pairs[i].winner][pairs[i].loser] = true;
@@ -227,6 +205,7 @@ for (int j = 0; j < candidate_count; j++)
         }
     }
 }
+
 //Check if locked pair creates a cycle
 bool creates_cycle(int winner, int loser)
 {
