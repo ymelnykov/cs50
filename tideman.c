@@ -33,6 +33,7 @@ void add_pairs(void);
 void sort_pairs(void);
 void lock_pairs(void);
 void print_winner(void);
+bool creates_cycle(int winner, int loser);
 
 int main(int argc, string argv[])
 {
@@ -196,43 +197,11 @@ void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
     {
-        locked[pairs[i].winner][pairs[i].loser] = true;
-        for (int j = 0; j < i; j++)
+        if (!creates_cycle(pairs[i].winner, pairs[i].loser))
         {
-            if (pairs[i].loser == pairs[j].winner)
-            {
-                locked[pairs[i].winner][pairs[i].loser] = false;
-                break;
-            }
+            locked[pairs[i].winner][pairs[i].loser] = true;
         }
     }
-        //locked[pairs[i].winner][pairs[i].loser] = true;
-    //}
-
-    //for (int j = 0; j < candidate_count; j++)
-    //{
-        //bool flag = false;
-        //for (int i = 0; i < candidate_count; i++)
-        //{
-            //if (locked[i][j] == true)
-            //{
-                //flag = true;
-            //}
-        //}
-        //if (flag == false)
-        //{
-            //for (int i = 0; i < candidate_count; i++)
-            //{
-                //for (int k = 0; k < candidate_count; k++)
-                //{
-                    //printf("%i   ", locked[i][k]);
-                //}
-                //printf("\n");
-            //}
-            //return;
-        //}
-    //}
-    //locked[pairs[pair_count].winner][pairs[pair_count].loser] = false;
     return;
 }
 
@@ -245,9 +214,10 @@ for (int j = 0; j < candidate_count; j++)
         bool flag = false;
         for (int i = 0; i < candidate_count; i++)
         {
-            if (locked[i][j] == true)
+            if (locked[i][j])
             {
                 flag = true;
+                break;
             }
         }
         if (flag == false)
@@ -256,4 +226,23 @@ for (int j = 0; j < candidate_count; j++)
             return;
         }
     }
+}
+//Check if locked pair creates a cycle
+bool creates_cycle(int winner, int loser)
+{
+    if (loser == winner)
+    {
+        return true;
+    }
+    for (int i = 0; i < candidate_count; i++)
+    {
+        if (locked[loser][i])
+        {
+            if (creates_cycle(winner, i))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
