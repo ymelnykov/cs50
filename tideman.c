@@ -196,21 +196,28 @@ void lock_pairs(void)
 {
     for (int i = 0; i < pair_count; i++)
     {
+        for (int j = 0; i < pair_count; j++)
+        {
+            if (pairs[i].loser == pairs[j].winner)
+            {
+                locked[pairs[i].winner][pairs[i].loser] = false;
+            }
+        }
         locked[pairs[i].winner][pairs[i].loser] = true;
     }
 
-    for (int j = 0; j < candidate_count; j++)
-    {
-        bool flag = false;
-        for (int i = 0; i < candidate_count; i++)
-        {
-            if (locked[i][j] == true)
-            {
-                flag = true;
-            }
-        }
-        if (flag == false)
-        {
+    //for (int j = 0; j < candidate_count; j++)
+    //{
+        //bool flag = false;
+        //for (int i = 0; i < candidate_count; i++)
+        //{
+            //if (locked[i][j] == true)
+            //{
+                //flag = true;
+            //}
+        //}
+        //if (flag == false)
+        //{
             //for (int i = 0; i < candidate_count; i++)
             //{
                 //for (int k = 0; k < candidate_count; k++)
@@ -219,10 +226,10 @@ void lock_pairs(void)
                 //}
                 //printf("\n");
             //}
-            return;
-        }
-    }
-    locked[pairs[pair_count].winner][pairs[pair_count].loser] = false;
+            //return;
+        //}
+    //}
+    //locked[pairs[pair_count].winner][pairs[pair_count].loser] = false;
     return;
 }
 
