@@ -24,8 +24,8 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
         for (int j = 0, n = floor(width / 2); j < n; j++)
         {
             tmp[0][0] = image[i][j];
-            image[i][j] = image[i][width - (j + 1)];
-            image[i][width - (j + 1)] = tmp[0][0];
+            image[i][j] = image[i][(width - 1) - j];
+            image[i][(width - 1) - j] = tmp[0][0];
         }
     }
     return;
@@ -34,6 +34,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
+    //Make a copy of original array to work with unmodified data
     RGBTRIPLE tmp[height][width];
     for (int i = 0; i < height; i++)
     {
@@ -42,7 +43,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             tmp[i][j] = image[i][j];
         }
     }
-
+    //Execute blur algorithm
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
@@ -78,6 +79,16 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 // Detect edges
 void edges(int height, int width, RGBTRIPLE image[height][width])
 {
+    //Make a copy of original array to work with unmodified data
+    RGBTRIPLE tmp[height][width];
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            tmp[i][j] = image[i][j];
+        }
+    }
+    // Execute edge algorithm
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
@@ -99,27 +110,27 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
                         {
                             if (m == i)
                             {
-                                rgbBlueGX += image[m][n].rgbtBlue * 2 * (n - j);
-                                rgbGreenGX += image[m][n].rgbtGreen * 2 * (n - j);
-                                rgbRedGX += image[m][n].rgbtRed * 2 * (n - j);
+                                rgbBlueGX += tmp[m][n].rgbtBlue * 2 * (n - j);
+                                rgbGreenGX += tmp[m][n].rgbtGreen * 2 * (n - j);
+                                rgbRedGX += tmp[m][n].rgbtRed * 2 * (n - j);
                             }
                             else
                             {
-                                rgbBlueGX += image[m][n].rgbtBlue * (n - j);
-                                rgbGreenGX += image[m][n].rgbtGreen * (n - j);
-                                rgbRedGX += image[m][n].rgbtRed * (n - j);
+                                rgbBlueGX += tmp[m][n].rgbtBlue * (n - j);
+                                rgbGreenGX += tmp[m][n].rgbtGreen * (n - j);
+                                rgbRedGX += tmp[m][n].rgbtRed * (n - j);
                             }
                             if (n == j)
                             {
-                                rgbBlueGY += image[m][n].rgbtBlue * 2 * (m - i);
-                                rgbGreenGY += image[m][n].rgbtGreen * 2 * (m - i);
-                                rgbRedGY += image[m][n].rgbtRed * 2 * (m - i);
+                                rgbBlueGY += tmp[m][n].rgbtBlue * 2 * (m - i);
+                                rgbGreenGY += tmp[m][n].rgbtGreen * 2 * (m - i);
+                                rgbRedGY += tmp[m][n].rgbtRed * 2 * (m - i);
                             }
                             else
                             {
-                                rgbBlueGY += image[m][n].rgbtBlue * (m - i);
-                                rgbGreenGY += image[m][n].rgbtGreen * (m - i);
-                                rgbRedGY += image[m][n].rgbtRed * (m - i);
+                                rgbBlueGY += tmp[m][n].rgbtBlue * (m - i);
+                                rgbGreenGY += tmp[m][n].rgbtGreen * (m - i);
+                                rgbRedGY += tmp[m][n].rgbtRed * (m - i);
                             }
                         }
                     }
