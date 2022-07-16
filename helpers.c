@@ -8,8 +8,8 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-            int rgbtAV = round((image[i][j].rgbtBlue + image[i][j].rgbtGreen +image[i][j].rgbtRed) / 3.0);
-            image[i][j].rgbtBlue = image[i][j].rgbtGreen = image[i][j].rgbtRed = rgbtAV;
+            int average = round((image[i][j].rgbtBlue + image[i][j].rgbtGreen +image[i][j].rgbtRed) / 3.0);
+            image[i][j].rgbtBlue = image[i][j].rgbtGreen = image[i][j].rgbtRed = average;
         }
     }
     return;
@@ -48,9 +48,9 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-            float rgbBlueSum = 0;
-            float rgbGreenSum = 0;
-            float rgbRedSum = 0;
+            float blue_sum = 0;
+            float green_sum = 0;
+            float red_sum = 0;
             int counter = 0;
             for (int m = i - 1; m <= i + 1; m++)
             {
@@ -60,17 +60,17 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                     {
                         if (n >= 0 && n < width)
                         {
-                            rgbBlueSum += tmp[m][n].rgbtBlue;
-                            rgbGreenSum += tmp[m][n].rgbtGreen;
-                            rgbRedSum += tmp[m][n].rgbtRed;
+                            blue_sum += tmp[m][n].rgbtBlue;
+                            green_sum += tmp[m][n].rgbtGreen;
+                            red_sum += tmp[m][n].rgbtRed;
                             counter++;
                         }
                     }
                 }
             }
-            image[i][j].rgbtBlue = round(rgbBlueSum / counter);
-            image[i][j].rgbtGreen = round(rgbGreenSum / counter);
-            image[i][j].rgbtRed = round(rgbRedSum / counter);
+            image[i][j].rgbtBlue = round(blue_sum / counter);
+            image[i][j].rgbtGreen = round(green_sum / counter);
+            image[i][j].rgbtRed = round(red_sum / counter);
         }
     }
     return;
@@ -88,69 +88,47 @@ void edges(int height, int width, RGBTRIPLE image[height][width])
             tmp[i][j] = image[i][j];
         }
     }
+    //Create Sobel array
+    int Gx[3][3] = {{-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1}};
+    int Gy[3][3] = {{-1, -2, -1}, {0, 0, 0}, {1, 2, 1}};
+
     // Execute edge algorithm
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            float rgbBlueGX = 0;
-            float rgbGreenGX = 0;
-            float rgbRedGX = 0;
-            float rgbBlueGY = 0;
-            float rgbGreenGY = 0;
-            float rgbRedGY = 0;
+            float blue_Gx = 0;
+            float green_Gx = 0;
+            float red_Gx = 0;
+            float blue_Gy = 0;
+            float green_Gy = 0;
+            float red_Gy = 0;
 
-            for (int m = i - 1; m <= i + 1; m++)
+            for (int m = -1; m <= 1; m++)
             {
-                if (m >= 0 && m < height)
+                if (m + i >= 0 && m + i < height)
                 {
-                    for (int n = j - 1; n <= j + 1; n++)
+                    for (int n = -1; n <= 1; n++)
                     {
-                        if (n >= 0 && n < width)
+                        if (n + j >= 0 && n + j < width)
                         {
-                            if (m == i)
-                            {
-                                rgbBlueGX += tmp[m][n].rgbtBlue * 2 * (n - j);
-                                rgbGreenGX += tmp[m][n].rgbtGreen * 2 * (n - j);
-                                rgbRedGX += tmp[m][n].rgbtRed * 2 * (n - j);
-                            }
-                            else
-                            {
-                                rgbBlueGX += tmp[m][n].rgbtBlue * (n - j);
-                                rgbGreenGX += tmp[m][n].rgbtGreen * (n - j);
-                                rgbRedGX += tmp[m][n].rgbtRed * (n - j);
-                            }
-                            if (n == j)
-                            {
-                                rgbBlueGY += tmp[m][n].rgbtBlue * 2 * (m - i);
-                                rgbGreenGY += tmp[m][n].rgbtGreen * 2 * (m - i);
-                                rgbRedGY += tmp[m][n].rgbtRed * 2 * (m - i);
-                            }
-                            else
-                            {
-                                rgbBlueGY += tmp[m][n].rgbtBlue * (m - i);
-                                rgbGreenGY += tmp[m][n].rgbtGreen * (m - i);
-                                rgbRedGY += tmp[m][n].rgbtRed * (m - i);
-                            }
+                            blue_Gx += tmp[m + i][n + j].rgbtBlue * Gx[m + 1][n + 1];
+                            green_Gx += tmp[m + i][n + j].rgbtGreen * Gx[m + 1][n + 1];
+                            red_Gx += tmp[m + i][n + j].rgbtRed * Gx[m + 1][n + 1];
+                            blue_Gy += tmp[m + i][n + j].rgbtBlue * Gy[m + 1][n + 1];
+                            green_Gy += tmp[m + i][n + j].rgbtGreen * Gy[m + 1][n + 1];
+                            red_Gy += tmp[m + i][n + j].rgbtRed * Gy[m + 1][n + 1];
+
                         }
                     }
                 }
             }
-            image[i][j].rgbtBlue = round(sqrt(pow(rgbBlueGX, 2) + pow(rgbBlueGY, 2)));
-            if (image[i][j].rgbtBlue > 255)
-            {
-                image[i][j].rgbtBlue = 255;
-            }
-            image[i][j].rgbtGreen = round(sqrt(pow(rgbGreenGX, 2) + pow(rgbGreenGY, 2)));
-            if (image[i][j].rgbtGreen > 255)
-            {
-                image[i][j].rgbtGreen = 255;
-            }
-            image[i][j].rgbtRed = round(sqrt(pow(rgbRedGX, 2) + pow(rgbRedGY, 2)));
-            if (image[i][j].rgbtRed > 255)
-            {
-                image[i][j].rgbtRed = 255;
-            }
+            int blue = round(sqrt(pow(blue_Gx, 2) + pow(blue_Gy, 2)));
+            int green = round(sqrt(pow(green_Gx, 2) + pow(green_Gy, 2)));
+            int red = round(sqrt(pow(red_Gx, 2) + pow(red_Gy, 2)));
+            image[i][j].rgbtBlue = (blue > 255) ? 255 : blue;
+            image[i][j].rgbtGreen = (green > 255) ? 255 : green;
+            image[i][j].rgbtRed = (red > 255) ? 255 : red;
         }
     }
     return;
