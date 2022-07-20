@@ -94,10 +94,7 @@ void free_family(person *p)
         free_family(p->parents[0]);
         free_family(p->parents[1]);
     }
-    else
-    {
-        free(p);
-    }
+    free(p);
     return;
 }
 
