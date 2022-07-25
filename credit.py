@@ -1,12 +1,12 @@
 from cs50 import get_string
 import re
 
-// Input card number
+# Input card number
 card = str()
 while not card.isdigit():
     card = get_string("Card: ")
 
-// Checksum card number
+# Checksum card number
 sum = 0
 card = card[::-1]
 for i in range(len(card)):
@@ -18,18 +18,18 @@ for i in range(len(card)):
         else:
             sum += int(card[i]) * 2
 
-// Check card validity by checksum
+# Check card validity by checksum
 card = card[::-1]
 if sum % 10 != 0:
-    print('INVALID\n')
+    print('INVALID')
 
-// Check card type using regular expressions
+# Check card type using regular expressions
 if re.match(r'3[47]\d{13}', card):
-    print('AMEX\n')
+    print('AMEX')
 elif re.match(r'5[1-5]\d{14}', card):
-    print('MASTERCARD\n')
-elif re.match(r'4\d{12|15}', card):
-    print('VISA\n')
+    print('MASTERCARD')
+elif re.match(r'4\d{12}', card) or re.match(r'4\d{15}', card):
+    print('VISA')
 else:
-    print('INVALID\n')
+    print('INVALID')
 
