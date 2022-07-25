@@ -21,15 +21,15 @@ for i in range(len(card)):
 // Check card validity by checksum
 card = card[::-1]
 if sum % 10 != 0:
-    print('INVALID')
+    print('INVALID\n')
 
 // Check card type using regular expressions
 if re.match(r'3[47]\d{13}', card):
-    print('AMEX')
+    print('AMEX\n')
 elif re.match(r'5[1-5]\d{14}', card):
-    print('MASTERCARD')
+    print('MASTERCARD\n')
 elif re.match(r'4\d{12|15}', card):
-    print('VISA')
+    print('VISA\n')
 else:
-    print('INVALID')
+    print('INVALID\n')
 
