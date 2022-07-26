@@ -15,7 +15,7 @@ for i in range(len(text)):
         words += 1
     if text[i] in signs:
         sentences += 1
-words = words +1
+words = words + 1
 
 # Calculate index
 L = letters * 100 / words
