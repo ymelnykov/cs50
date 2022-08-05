@@ -1,0 +1,54 @@
+header {
+    background-color: #800020;
+    color: #fff;
+    margin-bottom: 2vw;
+    padding: 1.5vw;
+    text-align: center;
+}
+#WineSaying {
+    font-style: italic;
+    font-size: 1.2vw;
+}
+a.nav-link {
+    color: #800020;
+    font-size: 1.2em;
+}
+a.nav-link:hover {
+    color: #000;
+}
+.active {
+    text-decoration: underline;
+    color: #800020;
+}
+.container {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1vw;
+}
+div.card {
+    width: 32%;
+    padding: 1vw 4vw 2vw 4vw;
+    display: inline-block;
+}
+p.card-text {
+    font-size: 1.2vw;
+}
+h5 {
+    font-size: 2vw;
+}
+a.btn {
+    font-size: 1.5vw;
+    color: #fff;
+    background-color: #800020;
+    border-color: #800020;
+}
+a.btn:hover {
+    color: #800020;
+    background-color: #fff;
+    border-color: #800020;
+}
+footer {
+    color: #800020;
+    padding: 2vw;
+    text-align: center;
+}
