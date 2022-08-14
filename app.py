@@ -33,6 +33,7 @@ if not os.environ.get("API_KEY"):
 # Initialize symbols list allowing to get multiple quotes
 symbols = []
 
+
 @app.after_request
 def after_request(response):
     """Ensure responses aren't cached"""
@@ -70,7 +71,7 @@ def index():
     # Make total
     total = usd(cash[0]["cash"] + subtotal)
     # Show portfolio
-    return render_template("index.html", portfolio = portfolio, cash = usd(cash[0]["cash"]), total = total)
+    return render_template("index.html", portfolio=portfolio, cash=usd(cash[0]["cash"]), total=total)
 
 
 @app.route("/buy", methods=["GET", "POST"])
@@ -104,7 +105,8 @@ def buy():
         # Create table "transactions" if it doesn't exist
         # db.execute("CREATE TABLE IF NOT EXISTS transactions (tr_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER NOT NULL, symbol TEXT NOT NULL, shares INTEGER NOT NULL, price FLOAT NOT NULL, created_at TEXT DEFAULT CURRENT_TIMESTAMP)")
         # Record the purchase
-        db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], get_quote["symbol"], shares, get_quote["price"])
+        db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)",
+                   session["user_id"], get_quote["symbol"], shares, get_quote["price"])
         # Update cash in "users" table
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash[0]["cash"] - cost, session["user_id"])
         return redirect("/")
@@ -123,18 +125,17 @@ def history():
         # Find delta
         i["delta"] = get_quote["price"] - i["price"]
         if i["delta"] > 0:
-            i["status"] ="pos"
+            i["status"] = "pos"
             i["delta"] = "\u2191 " + usd(i["delta"])
         elif i["delta"] < 0:
             i["status"] = "neg"
-            i["delta"] ="\u2193 " + usd(abs(i["delta"]))
+            i["delta"] = "\u2193 " + usd(abs(i["delta"]))
         else:
             i["status"] = "zero"
             i["delta"] = i["delta"]
 
         i["price"] = usd(i["price"])
-    return render_template("history.html", entries = entries)
-
+    return render_template("history.html", entries=entries)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -210,7 +211,7 @@ def quote():
             quotes.append(get_quote)
         # Show quotes list from last quote to first one
         quotes = quotes[::-1]
-        return render_template("quoted.html", quotes = quotes)
+        return render_template("quoted.html", quotes=quotes)
     else:
         return render_template("quote.html")
 
@@ -237,7 +238,7 @@ def register():
         if not password:
             return apology("must provide password", 400)
         elif confirmation != password:
-            return apology ("passwords do not match", 400)
+            return apology("passwords do not match", 400)
 
         # Register user
         db.execute("INSERT INTO users (username, hash) VALUES(?, ?)", username, hash)
@@ -274,15 +275,17 @@ def sell():
         # Calculate the cost of shares
         cost = get_quote["price"] * shares
         # Record the sell
-        db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)", session["user_id"], get_quote["symbol"], -shares, get_quote["price"])
+        db.execute("INSERT INTO transactions (user_id, symbol, shares, price) VALUES (?, ?, ?, ?)",
+                   session["user_id"], get_quote["symbol"], -shares, get_quote["price"])
         # Update cash in "users" table
         cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
         db.execute("UPDATE users SET cash = ? WHERE id = ?", cash[0]["cash"] + cost, session["user_id"])
         return redirect("/")
     else:
         # Check shares available
-        symbols = db.execute("SELECT symbol, SUM(shares) FROM transactions WHERE user_id = ? GROUP BY symbol HAVING SUM(shares) !=0", session["user_id"])
-        return render_template("sell.html", symbols = symbols)
+        symbols = db.execute(
+            "SELECT symbol, SUM(shares) FROM transactions WHERE user_id = ? GROUP BY symbol HAVING SUM(shares) !=0", session["user_id"])
+        return render_template("sell.html", symbols=symbols)
 
 
 @app.route("/deposit", methods=["GET", "POST"])
@@ -306,4 +309,4 @@ def deposit():
     else:
         # Check user's current cash
         cash = db.execute("SELECT cash FROM users WHERE id = ?", session["user_id"])
-        return render_template("deposit.html", cash = usd(cash[0]["cash"]))
+        return render_template("deposit.html", cash=usd(cash[0]["cash"]))
