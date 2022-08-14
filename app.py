@@ -206,6 +206,7 @@ def quote():
         # Fill in the quotes list
         for i in symbols:
             get_quote = lookup(i)
+            get_quote["price"] = usd(get_quote["price"])
             quotes.append(get_quote)
         # Show quotes list from last quote to first one
         quotes = quotes[::-1]
