@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Quoted
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="text-start">Symbol</th>
+                <th class="text-start">Name</th>
+                <th class="text-end">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for i in quotes %}
+                    <tr>
+                        <td class="text-start">{{ i["symbol"] }}</td>
+                        <td class="text-start">{{ i["name"] }}</td>
+                        <td class="text-end">{{ i["price"] }}</td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+
+    {% endblock %}
