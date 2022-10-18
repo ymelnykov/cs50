@@ -1,0 +1,93 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <h3>{{ listing.title }}</h3>
+        <div class="row mt-4">
+            <div class="col-2">
+                <img src="{{ listing.image_url|default:'/static/auctions/no_image.png' }}" alt="Listing image">
+            </div>
+            <div class="col">
+                <div>
+                    {{ listing.description|safe }}
+                </div>
+                <div class="my-3">
+                    Owner: {{ listing.owner}}
+                </div>
+                <div class="my-3">
+                    <h4>${{ listing.price|floatformat:2}}</h4>
+                </div>
+                {% if user.is_authenticated %}
+                    {% if not listing.is_active %}
+                        <div class="text-danger mb-3">
+                            {% if listing.winner == user %}
+                                Congratulations! You have won the auction!
+                            {% else %}
+                                Auction has been closed. The winner is <strong>{{ listing.winner }}</strong>.
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        {% if message %}
+                            <div class="text-danger mb-3">
+                                {{ message }}
+                            </div>
+                        {% endif %}
+                        <div>
+                            <form action="{% url 'bid' id=listing.id %}" method="POST">
+                                {% csrf_token %}
+                                <input type="number" name="bid" width="30px" height="1.5rem" min="0" placeholder="Bid Amount">
+                                <button class="btn btn-primary" type="submit">Place bid</button>
+                            </form>
+                        </div>
+                        <div class="my-3">
+                            {% if is_in_watchlist %}
+                                <form action="{% url 'remove_from_watchlist' id=listing.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="btn btn-outline-primary" type="submit">Remove from Watchlist</button>
+                                </form>
+                            {% else %}
+                                <form action="{% url 'add_to_watchlist' id=listing.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="btn btn-outline-primary" type="submit">Add to Watchlist</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                        {% if is_owner %}
+                            <div class = "my-3">
+                                <form action="{% url 'close_auction' id=listing.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="btn btn-primary" type="submit">Close Auction</button>
+                                </form>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% if comments %}
+                    <div class="my-4">
+                        <h4>Comments</h4>
+                        {% for comment in comments %}
+                            <div>
+                                <strong>{{ comment.author }}:</strong> {{ comment.text }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    {% if listing.is_active %}
+                        <div>
+                            <h4>Add a comment:</h4>
+                            <form action="{% url 'comment' id=listing.id %}" method="GET">
+                                {% csrf_token %}
+                                <div class="mb-3">
+                                    <textarea name="text" rows="7" cols="66" maxlength="500" placeholder="Enter your comment here"></textarea>
+                                </div>
+                                <div>
+                                    <input class="btn btn-primary" type="submit" value="Submit">
+                                </div>
+                            </form>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+{% endblock %}
