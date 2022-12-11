@@ -1,0 +1,11 @@
+.cubicle {
+    margin: 5px 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+.show {
+    display: block;
+}
+.edit {
+    display: none;
+}
