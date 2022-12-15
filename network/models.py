@@ -11,3 +11,6 @@ class Post(models.Model):
     content = models.CharField(max_length=280)
     timestamp = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, blank=True, related_name="likes")
+
+    def __str__(self):
+        return f'Post {self.id} made by {self.poster} on {self.timestamp.strftime("%d/%m/%y %H:%M:%S")}'

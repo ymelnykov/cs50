@@ -15,6 +15,15 @@
     .edit {
         display: none;
     }
+    .fa-heart {
+        font-size: 36px;
+        color:red;
+    }
+    .fa-heart-o {
+        font-size: 36px;
+        color:black;
+    }
+
 </style>
 {% endblock %}    
 
@@ -37,35 +46,31 @@
     {% for post in posts %}
         <div class="cubicle">
             <div class="show" id="show{{ post.id }}">
-                <p><strong>{{ post.poster }}</strong></p>
+                <p><a class="nav-link" href="{% url 'profile' user_id=post.poster.id %}"><strong>{{ post.poster }}</strong></a></p>
                 <p>{{ post.content }}</p>
                 <p>{{ post.timestamp }}</p>
-                {% if user.is_authenticated %}
+                <p><button class="btn btn-link" onclick="likeHandler('{{post.id}}')">
                     {% if request.user in post.likes.all %}
-                        <p><a href="{% url 'unlike' id=post.id %}"><img src="{% static 'network/liked.png' %}" width="37" height="33" alt="Unlike"></a> {{ post.likes.all|length }}</p>
+                    <i class="fa fa-heart" id="icon{{ post.id }}"></i>
                     {% else %}
-                        <p><a href="{% url 'like' id=post.id %}"><img src="{% static 'network/unliked.png' %}" width="37" height="33" alt="Like"></a> {{ post.likes.all|length }}</p>
+                    <i class="fa fa-heart-o" id="icon{{ post.id }}" ></i>
                     {% endif %}
-                {% else %}
-                    <p><img src="{% static 'network/unliked.png' %}" width="37" height="33" alt="Like"> {{ post.likes.all|length }}</p>
-                {% endif %}
+                    </button>
+                    <span id="likenum{{ post.id }}">{{ post.likes.all|length }}</span>
+                </p>
+            
                 {% if post.poster == request.user %}
-                <p><button class="btn btn-dark" id="{{ post.id }}">Edit</button></p>
+                <p><button class="btn btn-dark" data-id="{{ post.id }}">Edit</button></p>
                 {% endif %}
             </div>
             <div class="edit" id="edit{{ post.id }}">
-                <p><strong>{{ post.poster }}</strong></p>
+                <p><a class="nav-link" href="{% url 'profile' user_id=post.poster.id %}"><strong>{{ post.poster }}</strong></a></p>
                 <form action="{% url 'edit' id=post.id %}" method="post">
                     {% csrf_token %}
                     <textarea name="content" rows="3" cols="100">{{ post.content }}</textarea>
                     <br>
                     <p>{{ post.timestamp }}</p>
-                    {% if request.user in post.likes.all %}
-                        <p><a href="{% url 'unlike' id=post.id %}"><img src="{% static 'network/liked.png' %}" width="37" height="33" alt="Unlike"></a> {{ post.likes.all|length }}</p>
-                    {% else %}
-                        <p><a href="{% url 'like' id=post.id %}"><img src="{% static 'network/unliked.png' %}" width="37" height="33" alt="Like"></a> {{ post.likes.all|length }}</p>
-                    {% endif %}
-                    <input type="submit" class="btn btn-success" value="Save">
+                        <input type="submit" class="btn btn-success" value="Save">
                 </form>
             </div>
         </div>

@@ -9,3 +9,11 @@
 .edit {
     display: none;
 }
+.fa-heart {
+    font-size: 36px;
+    color:red;
+}
+.fa-heart-o {
+    font-size: 36px;
+    color:black;
+}

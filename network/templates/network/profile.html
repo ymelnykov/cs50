@@ -1,0 +1,41 @@
+{% extends 'network/layout.html' %}
+
+{% load static %}
+
+{% block title %}User Profile{% endblock %}
+{% block script %}
+<script src="{% static 'network/edit.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<h1>{{ profile|capfirst }} Profile</h1>
+<div class="cubicle">
+    <h3>Followers: {{ profile.followers.all|length }}</h3>
+    <h3>Following: {{ profile.following.all|length }}</h3>
+    {% if request.user != profile %}
+        {% if request.user in profile.followers.all %}
+            <button class="btn btn-primary" id="follow" onclick="followHandler('{{ profile.id }}')">Unfollow</button>
+        {% else %}
+            <button class="btn btn-primary" id="follow" onclick="followHandler('{{ profile.id }}')">Follow</button>
+        {% endif %}
+    {% endif %}
+</div>
+<div class="cubicle">
+    {% for post in posts %}
+        <p><a class="nav-link" href="#"><strong>{{ post.poster }}</strong></a></p>
+        <p>{{ post.content }}</p>
+        <p>{{ post.timestamp }}</p>
+        <p><button class="btn btn-link" onclick="likeHandler('{{post.id}}')">
+            {% if request.user in post.likes.all %}
+            <i class="fa fa-heart" id="icon{{ post.id }}"></i>
+            {% else %}
+            <i class="fa fa-heart-o" id="icon{{ post.id }}" ></i>
+            {% endif %}
+            </button>
+            <span id="likenum{{ post.id }}">{{ post.likes.all|length }}</span>
+        </p>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
