@@ -2,37 +2,10 @@
 
 {% load static %}
 
-{% block style %}
-<style>
-    .cubicle {
-        margin: 5px 10px;
-        padding: 10px;
-        border: 1px solid #ddd;
-    }
-    .show {
-        display: block;
-    }
-    .edit {
-        display: none;
-    }
-    .fa-heart {
-        font-size: 36px;
-        color:red;
-    }
-    .fa-heart-o {
-        font-size: 36px;
-        color:black;
-    }
-
-</style>
-{% endblock %}    
-
-{% block script %}
-<script src="{% static 'network/edit.js' %}"></script>
-{% endblock %}
 {% block body %}
     <h1>All Posts</h1>
     {% if user.is_authenticated %}
+    <!--Create a new post-->
     <div class="cubicle">
         <h2>New Post</h2>
         <form action="{% url 'posting' %}" method="post">
@@ -43,36 +16,7 @@
         </form>
     </div>
     {% endif %}
-    {% for post in posts %}
-        <div class="cubicle">
-            <div class="show" id="show{{ post.id }}">
-                <p><a class="nav-link" href="{% url 'profile' user_id=post.poster.id %}"><strong>{{ post.poster }}</strong></a></p>
-                <p>{{ post.content }}</p>
-                <p>{{ post.timestamp }}</p>
-                <p><button class="btn btn-link" onclick="likeHandler('{{post.id}}')">
-                    {% if request.user in post.likes.all %}
-                    <i class="fa fa-heart" id="icon{{ post.id }}"></i>
-                    {% else %}
-                    <i class="fa fa-heart-o" id="icon{{ post.id }}" ></i>
-                    {% endif %}
-                    </button>
-                    <span id="likenum{{ post.id }}">{{ post.likes.all|length }}</span>
-                </p>
-            
-                {% if post.poster == request.user %}
-                <p><button class="btn btn-dark" data-id="{{ post.id }}">Edit</button></p>
-                {% endif %}
-            </div>
-            <div class="edit" id="edit{{ post.id }}">
-                <p><a class="nav-link" href="{% url 'profile' user_id=post.poster.id %}"><strong>{{ post.poster }}</strong></a></p>
-                <form action="{% url 'edit' id=post.id %}" method="post">
-                    {% csrf_token %}
-                    <textarea name="content" rows="3" cols="100">{{ post.content }}</textarea>
-                    <br>
-                    <p>{{ post.timestamp }}</p>
-                        <input type="submit" class="btn btn-success" value="Save">
-                </form>
-            </div>
-        </div>
-    {% endfor %}
+
+    {% include 'network/includes/posts.html' %}
+
 {% endblock %}
