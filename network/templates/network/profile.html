@@ -1,0 +1,29 @@
+{% extends 'network/layout.html' %}
+
+{% load static %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block body %}
+<h1>{{ profile }} Profile</h1>
+<div class="cubicle">
+    <h3>Followers: <span id="followers">{{ profile.followers.all|length }}</span></h3>
+    <h3>Following: {{ profile.following.all|length }}</h3>
+    {% if request.user != profile and user.is_authenticated %}
+        <!--Follow/Unfollow button-->
+        {% if request.user in profile.followers.all %}
+            <button class="btn btn-primary" id="follow" onclick="followHandler('{{ profile.id }}')">Unfollow</button>
+        {% else %}
+            <button class="btn btn-primary" id="follow" onclick="followHandler('{{ profile.id }}')">Follow</button>
+        {% endif %}
+    {% endif %}
+</div>
+
+{% if not page_obj %}
+<p>You have no posts so far.</p>
+{% endif %}
+
+{% include 'network/includes/posts.html' %}
+
+{% endblock %}
+

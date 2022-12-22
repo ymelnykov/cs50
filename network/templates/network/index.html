@@ -1,0 +1,22 @@
+{% extends "network/layout.html" %}
+
+{% load static %}
+
+{% block body %}
+    <h1>All Posts</h1>
+    {% if user.is_authenticated %}
+    <!--Create a new post-->
+    <div class="cubicle">
+        <h2>New Post</h2>
+        <form action="{% url 'posting' %}" method="post">
+            {% csrf_token %}
+            <textarea name="content" rows="3" cols="100"></textarea>
+            <br>
+            <input type="submit" class="btn btn-primary" value="Post">
+        </form>
+    </div>
+    {% endif %}
+
+    {% include 'network/includes/posts.html' %}
+
+{% endblock %}

@@ -1,0 +1,19 @@
+.cubicle {
+    margin: 5px 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+.post {
+    display: block;
+}
+.edit {
+    display: none;
+}
+.fa-heart {
+    font-size: 36px;
+    color:red;
+}
+.fa-heart-o {
+    font-size: 36px;
+    color:black;
+}

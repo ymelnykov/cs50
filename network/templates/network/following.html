@@ -1,0 +1,18 @@
+{% extends "network/layout.html" %}
+
+{% load static %}
+
+{% block title %}User Following{% endblock %}
+
+{% block body %}
+    <h1>Following</h1>
+   
+    {% if not page_obj %}
+    <p>You are not following anybody at the moment.</p>
+    {% endif %}
+
+    {% include 'network/includes/posts.html' %}
+
+
+
+{% endblock %}
