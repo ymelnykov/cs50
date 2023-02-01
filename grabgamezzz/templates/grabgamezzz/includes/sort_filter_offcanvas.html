@@ -1,0 +1,129 @@
+<div class="offcanvas offcanvas-start" style="--bs-offcanvas-width: 20%" tabindex="-1" id="sortFilter" aria-labelledby="sortFilterLabel">
+  <div class="offcanvas-header bg-warning">
+    <h4 class="offcanvas-title" id="sortFilterLabel">Sort &amp; Filter</h4>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <form action="{{request.path}}" method="get">
+      <!--Include current search query in request, if any-->
+      {% if 'q' in request.GET %}
+      <input type="hidden" name="q" value="{{request.GET.q}}">
+      {% endif %}
+      
+      <!--Sort Section-->
+      <h5>Sort by</h5>
+      <div class="d-flex flex-row border-top border-bottom py-4">
+        <!--Select Sort Criterion-->
+        <select class="form-select-sm me-2" name="by" id="by" aria-label=".form-select-sm example">
+          <option value="expiry_date" id="expiry_date">Expiry date</option>
+          <option value="published_date" id="published_date" selected>Publication date</option>
+          <option value="title" id="title">Title</option>
+          <option value="worth" id="worth">Worthiness</option>
+        </select>
+        <!--Choose Sort Order-->
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="order" value="-" id="descending" checked>
+          <label class="form-check-label text-sm me-1" for="descending">
+            <i class="fa-sharp fa-solid fa-arrow-down"></i>
+          </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input class="form-check-input" type="radio" name="order" value="" id="ascending">
+          <label class="form-check-label text-sm" for="ascending">
+            <i class="fa-sharp fa-solid fa-arrow-up"></i>
+          </label>
+        </div>
+      </div>
+      <!--End of Sort Section-->
+
+      <!--Filter Section-->
+      <h5 class="pt-3">Filter by</h5>
+      <div class="border-top border-bottom py-4">
+        <div class="accordion" id="accordionFilter">
+          <!--Filter by Platform-->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingPlatform">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePlatform" aria-expanded="false" aria-controls="collapsePlatform">
+                Platform
+              </button>
+            </h2>
+            <div id="collapsePlatform" class="accordion-collapse collapse" aria-labelledby="headingPlatform" data-bs-parent="#accordionFilter">
+              <div class="accordion-body">
+                {% for platform in platforms %}
+                <h6>{{platform.type}}</h6>
+                <div class="border-bottom pb-2 mb-2">
+                  {% for name in platform.names %}
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="platforms" value="{{name}}" id="{{name}}">
+                    <label class="form-check-label" for="{{name}}">
+                      {{name}}
+                    </label>
+                  </div>
+                  {% endfor %}
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <!--Filter by Status-->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingStatus">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseStatus" aria-expanded="false" aria-controls="collapseStatus">
+                Status
+              </button>
+            </h2>
+            <div id="collapseStatus" class="accordion-collapse collapse" aria-labelledby="headingStatus" data-bs-parent="#accordionFilter">
+              <div class="accordion-body">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="status" value="active" id="active">
+                  <label class="form-check-label" for="active">
+                    Active
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="status" value="expired" id="expired">
+                  <label class="form-check-label" for="expired">
+                    Expired
+                  </label>
+                </div>
+            </div>
+            </div>
+          </div>
+          <!--Filter by Type-->
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingType">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseType" aria-expanded="false" aria-controls="collapseType">
+                Type
+              </button>
+            </h2>
+            <div id="collapseType" class="accordion-collapse collapse" aria-labelledby="headingType" data-bs-parent="#accordionFilter">
+              <div class="accordion-body">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="type" value="DLC" id="DLC">
+                  <label class="form-check-label" for="DLC">
+                    DLC
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="type" value="Early Access" id="Early Access">
+                  <label class="form-check-label" for="Early Access">
+                    Early Access
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" name="type" value="Game" id="Game">
+                  <label class="form-check-label" for="Game">
+                    Game
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Apply and Reset buttons-->
+      <button class="btn btn-warning mt-3 me-3" type="submit">Apply</button>
+      <button class="btn btn-secondary mt-3" type="reset">Reset</button>
+    </form>
+  </div>
+</div>

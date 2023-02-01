@@ -1,0 +1,59 @@
+<div class="modal fade" id="givModal" tabindex="-1" aria-labelledby="givTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h5 class="modal-title text-white" id="givTitle"></h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!--Image-->
+        <div><img loading="lazy" width="100%" id="givImage"></div>
+        <div class="px-3 py-2 "> 
+          <div class="d-flex justify-content-between">
+            <!--Worth-->
+            <div class="mb-2">$0.00 
+              <span class="text-muted"><s id="givWorth"></s></span> 
+              <span class="text-primary badge border border-primary"><strong>FREE</strong></span>
+            </div>
+            <!--Author-->
+            <div class="text-muted text-truncate"> 
+              <i class="fa-solid fa-address-card me-2"></i> <strong id="givAuthor"></strong>
+            </div>
+          </div>
+          <div>
+            <!--Type-->
+            <span id="givType"></span>
+            <span class="mx-2">|</span>
+            <!--Platforms-->
+            <span id="givPlatforms"></span>
+          </div>
+          <!--Expiry date-->
+          <div>
+            <span class="text-danger">Ends: 
+              <span id="givExpiryDate"></span>
+            </span>
+          </div>
+          <!--Description--> 
+          <p class=" text-muted border-top my-2 pt-2" id="givDescription"></p> 
+          <!--Instructions-->
+          <h6>Instructions:</h6> 
+          <p class=" text-muted border-bottom mb-2 pb-2" id="givInstructions"></p> 
+          <div class="d-flex justify-content-between align-items-center"> 
+            <!--Collect button-->
+            <div id="givCollector"></div> 
+            <!--Open Giveaway and Close buttons-->
+            <div>
+              <a target="_blank" class="btn btn-primary btn-block me-2" id="givUrl">Open Giveaway</a>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+          <!--Number of collectors--> 
+          <div class="text-muted small pt-1 text-truncate"> 
+              <strong id="givCollected"></strong> users collected it!
+          </div>
+        </div> 
+      </div>
+    </div>
+  </div>
+</div>
+
