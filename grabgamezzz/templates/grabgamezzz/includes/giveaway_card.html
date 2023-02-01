@@ -1,0 +1,80 @@
+<!--Giveaway Card-->
+<div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4"> 
+    <div class="card box-shadow shadow grow">
+        <div style="position: relative">
+        <!--Image-->
+        <div>
+            <img loading="lazy" class="card-img-top" width="100%" height="150" src="{{ giv.image|default:'/static/grabgamezzz/no_image.png' }}" alt="{{ giv.title }}" id="image{{giv.id}}">
+        </div> 
+            <!--Expired stamp-->
+            <div class="expired_stamp" id="expired{{ giv.id }}">expired</div>
+            <!--Platform icons-->
+            <span style="position: absolute; top: 4px; right: 4px;">
+                {% for x, y in platform_icons %}
+                {% if x in giv.platforms %}
+                <span class="badge-trans rounded me-1" title="Available on {{x}}"><i class="fab fa-{{y}} m-1 text-light"></i></span>
+                {% endif %}
+                {% endfor %}
+            </span>
+        </div>
+        <!--Title-->
+        <div class="bg-primary px-2 py-1 text-white d-flex align-items-center" id="title_container{{giv.id}}"> 
+            <h6 class="text-truncate mb-0"><strong id="title{{giv.id}}">{{ giv.title }}</strong></h6> 
+        </div> 
+        <!--Worth-->
+        <div class="px-3 py-2 "> $0.00 
+            <span class="text-muted"><s id="worth{{giv.id}}">{{ giv.worth|default:'' }}</s></span> 
+            <span class="text-primary badge border border-primary"><strong>FREE</strong></span>
+            <!--Type-->
+            <span class="badge bg-secondary float-end mt-1 me-1" id="type{{giv.id}}">{{ giv.type }}</span> 
+            <!--Author-->
+            <div class="text-muted small pt-1 text-truncate"> 
+                <i class="fa-solid fa-address-card me-2"></i> <strong id="author{{giv.id}}">{{ giv.author }}</strong>
+            </div>
+            <!--Description-->
+            <p class="card-text truncate2 text-muted mb-2 mt-1" id="description{{giv.id}}">{{ giv.description }}</p>
+            <!--Platforms, Instruction and URL for Giveaway view in modal-->
+            <div style="display: none" id="platforms{{giv.id}}">{{ giv.platforms }}</div>
+            <div style="display: none" id="instructions{{giv.id}}">{{ giv.instructions }}</div>
+            <div style="display: none" id="url{{giv.id}}">{{ giv.url }}</div>
+            <div class="d-flex justify-content-between">
+                <!--Collect button-->
+                <div id="collector{{ giv.id }}">
+                    {% if request.user in giv.collected.all %}
+                    <button aria-label="Remove From Collection" type="button" class="btn btn-secondary position-relative" onclick="collectHandler('{{giv.id}}')" title="Remove From Collection" id="collectButton{{ giv.id }}"><i class="fa fa-gift"></i> 
+                        <span class="position-absolute top-0 start-100 translate-middle badge border border-light bg-primary rounded-circle" style="--bs-badge-padding-x: 0.35em; --bs-badge-padding-y: 0.15em;" id="sign{{ giv.id }}">
+                            -
+                        </span>
+                    </button>
+                    {% else %}
+                    <button aria-label="Add To Collection" type="button" class="btn btn-outline-secondary position-relative" onclick="collectHandler('{{giv.id}}')" title="Add To Collection" id="collectButton{{ giv.id }}"><i class="fa fa-gift"></i> 
+                        <span class="position-absolute top-0 start-100 translate-middle badge border border-light bg-primary rounded-circle" style="--bs-badge-padding-x: 0.35em; --bs-badge-padding-y: 0.15em;" id="sign{{ giv.id }}">
+                            +
+                        </span>
+                    </button>
+                    {% endif %}
+                </div>
+                <!--View Giveaway button-->
+                <div>
+                    {% if user.is_authenticated %}
+                    <button class="btn btn-outline-primary btn-sm btn-block ms-2" id="view{{giv.id}}" data-bs-toggle="modal" data-bs-target="#givModal" onclick="viewGiveaway('{{giv.id}}')">View Giveaway</button> 
+                    {% else %}
+                    <button class="btn btn-outline-primary btn-sm btn-block ms-2" id="view{{giv.id}}" onclick="logIn()">View Giveaway</button>
+                    {% endif %}
+                </div>
+            </div>
+            <!--Number of collectors--> 
+            <div class="text-muted small pt-1 text-truncate"> 
+                <strong id="collected{{giv.id}}">{{ giv.collected.all|length }}</strong> user{{ giv.collected.all|length|pluralize }} collected it!
+            </div>
+            <!--Expiry date-->
+            <div>
+                <span class="text-danger small border-top border-danger">Ends: 
+                    <span id="expiry_date{{giv.id}}">{{ giv.expiry_date|default:'N/A' }}</span>
+                </span>
+            </div> 
+        </div> 
+    </div>
+</div>
+<!--End of Giveaway Card-->
+
