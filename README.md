@@ -34,7 +34,7 @@ As soon as a giveaway gets expired, which is checked by comparing its expiry dat
 
 **Collection page** resembles the Giveaways page in both the appearance and the functionality, but the giveaway set it operates with is limited to the giveaways found in the user’s collection.
 
-**Profile page** allows the user to change its personal data using the prefilled form, and change the user’s password with use of another form.
+**Profile page** allows the user to change his/her personal data using the prefilled form, and change the user’s password with use of another form.
 
 **Submit page** helps to submit a new giveaway.
 
