@@ -1,0 +1,50 @@
+{% extends 'grabgamezzz/layout.html' %}
+
+{% block title %}
+  Giveaways
+{% endblock %}
+
+{% block main %}
+
+  <!--Action Message, if any-->
+  {% if messages %}
+  <div id="actMessage" style="display: none">
+    {% for message in messages %}
+      {% if message.tags %} {{ message }} {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!--Database Query Message, if any-->
+  {% if message %}
+  <div class="d-flex flex-row mb-3">
+    <div class="h5 me-3">
+      {{ message }}
+    </div>
+    <button class="btn btn-warning btn-sm text-nowrap align-self-start" type="button" data-bs-toggle="offcanvas" data-bs-target="#sortFilter" aria-controls="sortFilter">Sort &amp; Filter</button>
+  </div>
+  {% endif %}
+
+  <!--Giveaway View Modal-->
+  {% include 'grabgamezzz/includes/giveaway_view_modal.html' %}
+  <!--End of Giveaway View Modal-->
+
+  <!--Sort and Filter Offcanvas-->
+  {% include 'grabgamezzz/includes/sort_filter_offcanvas.html' %}
+  <!--End of Sort and Filter Offcanvas-->
+
+  <!--Giveaways Section-->
+  <div class="row">
+  {% for giv in page_obj %}
+    {% include 'grabgamezzz/includes/giveaway_card.html' %}
+  {% endfor %}
+  </div>
+  <!--End of Giveaways Section-->
+
+  <!--Pagination Section-->
+  {% if page_obj %}
+    {% include 'grabgamezzz/includes/pagination.html' %}
+  {% endif %}
+  <!--End of Pagination Section-->
+
+{% endblock %}
