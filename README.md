@@ -19,6 +19,7 @@ In addition to the above capabilities, registered users can maintain their own c
 ## Specification
 
 GrabGamezzz website consists of the following pages.
+
 **Giveaways page** is a home page where all giveaways are displayed split in pages and sorted by publication date in descending order by default. It allows for searching, sorting and filtering the giveaways with use of the below described components:
 - **Webpage header** accommodates a clickable website logo and collapsible navigation bar. Authenticated users can see their username therein linked to their profile. For Giveaways and Collection pages the header includes a Giveaway Search form.
 - **Giveaway Search form** enables the search of a query string in giveaway titles recorded in the database.
