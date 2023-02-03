@@ -2,6 +2,7 @@
 
 ![Website screenshot](grabgamezzz/static/grabgamezzz/giveaways_thumbnail-1.png)  ![Website screenshot](grabgamezzz/static/grabgamezzz/giveaways_thumbnail-2.png)
 
+#### Video Demo: <https://www.youtube.com/watch?v=EZRAY-MU1Sw>
 GrabGamezzz is a game giveaway website for true game lovers that provides free game stuff generously issued by game creators, including whole games, early access to emerging game titles, downloadable game contents, add-ons, upgrades, packages, patches, secret keys and much more.
 
 ## Distinctiveness and Complexity
