@@ -1,0 +1,111 @@
+{% extends "grabgamezzz/layout.html" %}
+
+{% block title %}
+    Submit
+{% endblock %}
+
+{% block main %}
+
+    <!--Action Message, if any-->
+    {% if act_message %}
+    <div id="actMessage" style="display: none">
+        {{ act_message }}
+    </div>
+    {% endif %}
+    
+    <h2>Submit</h2>
+    <p>Here you can submit a new giveaway.</p>
+
+    <!--Submit Form-->
+    <div class="row my-3">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-6 small text-muted">Fields marked with "*" are required.</div>
+    </div>
+    <form action="{% url 'submit' %}" method="post">
+    {% csrf_token %}
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label fw-semibold" for="id_url">Giveaway URL*:</label>
+            <div class="col-sm-6">
+                <input class="form-control form-control-sm" type="url" name="url" id="id_url" placeholder="https://www.example.com/giveaway" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label fw-semibold" for="id_title">Title*:</label>
+            <div class="col-sm-6">
+                <input class="form-control form-control-sm" type="text" name="title" id="id_title" placeholder="Concise, but descriptive title" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label fw-semibold" for="id_image">Image URL:</label>
+            <div class="col-sm-6">
+                <input class="form-control form-control-sm" type="url" name="image" id="id_image" placeholder="https://www.example.com/image.jpg">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label fw-semibold" for="id_description">Description*:</label>
+            <div class="col-sm-6">
+                <textarea class="form-control form-control-sm" name="description" id="id_description" rows="5" placeholder="Describe the Giveaway briefly here" required></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label fw-semibold" for="id_instructions">Instructions*:</label>
+            <div class="col-sm-6">
+                <textarea class="form-control form-control-sm" name="instructions" id="id_instructions" rows="5" placeholder="Provide stepwise instructions on how to get the Giveaway" required></textarea>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label fw-semibold" for="id_type">Type*:</label>
+            <div class="col-sm-6">
+                <select class="form-select form-select-sm" name="type" id="id_type" required>
+                    <option value="">Select Giveaway type</option>
+                    <option value="DLC">DLC</option>
+                    <option value="Early Access">Early Access</option>
+                    <option value="Game">Game</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-2 col-form-label fw-semibold" for="id_platforms">Platforms*:</label>
+            <div class="col-sm-6">
+                <select class="form-select form-select-sm" name="platforms" id="id_platforms" multiple required>
+                    <option value="">Select appropriate platforms</option>
+                    {% for platform in platforms %}
+                    <optgroup label="{{platform.type}}">
+                        {% for name in platform.names %}
+                        <option value="{{name}}">{{name}}</option>
+                        {% endfor %}
+                    </optgroup>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-6 text-muted" style="font-size: 0.75rem" id="id_platforms_helptext">
+                Holding down the <code>Ctrl</code> key, use the <code>Up</code> and <code>Down</code> cursor keys to change the "focused" select option and press <code>Space</code> to select/deselect "focused" select options.
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label fw-semibold" for="id_worth">Worth (price):</label>
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" min="0.00" step="0.01" class="form-control form-control-sm" name="worth" id="id_worth" placeholder="0.00">
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-2 col-form-label fw-semibold" for="id_expiry_date">Expiry date:</label>
+            <div class="col-sm-6">
+                <input class="form-control form-control-sm" type="date" name="expiry_date" id="id_expiry_date">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-10">
+                <input class="btn btn-primary btn-sm" type="submit" value="Submit Giveaway">
+            </div>
+        </div>
+    </form>
+
+{% endblock %}
